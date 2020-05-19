@@ -10,10 +10,46 @@ class CartItem extends React.Component {
             qty:1,
             img:''
         }
+        this.testing();
     }
     increaseQuantity=()=>
     {
-       this.state.qty=this.state.qty+1;
+        //set state method 1
+    //    this.setState({
+    //        qty:this.state.qty+1
+    //    });
+       //set state method 2-if prev state req use this 
+       this.setState((prevstate)=>{
+          return {
+              qty:prevstate.qty+1
+          }
+       });
+      
+    }
+    testing(){
+        const promise=new Promise((resolve,reject)=>
+        {
+            setTimeout(()=>{
+                resolve('done');
+            },5000);
+        })
+        promise.then(()=>
+        {
+            this.setState({qty:this.state.qty+1});
+            this.setState({qty:this.state.qty+1});
+            this.setState({qty:this.state.qty+1});
+
+            console.log('state',this.state);
+        })
+    }
+    decreaseQuantity=()=>
+    {
+        const {qty}=this.state;
+        if(qty===0)
+        return;
+        this.setState({
+                   qty:this.state.qty-1
+               });
     }
     render(){
         const {price,title,qty}=this.state;
@@ -27,17 +63,18 @@ class CartItem extends React.Component {
         <div style={ { color: '#777' } }>{price}</div>
         <div style={ { color: '#777' } }>{qty}</div>
                   <div className="cart-item-actions">
+                  <img 
+                      alt="increase" 
+                      className="action-icons" 
+                      src="https://as2.ftcdn.net/jpg/00/70/16/29/500_F_70162903_5mFpUbO3ZfRyD4gslH8j2c5VxjGMKU9G.jpg"
+                      onClick={this.increaseQuantity} 
+                       />
                       <img 
                        alt="decrease"
                       className="action-icons"
                       src="https://as1.ftcdn.net/jpg/02/18/10/12/500_F_218101294_MGv2XZLTju18Iv2xAQe4TY2QAideeAbr.jpg"
-                      onClick={this.increaseQuantity} 
+                      onClick={this.decreaseQuantity}
                       />
-                      <img 
-                      alt="increase" 
-                      className="action-icons" 
-                      src="https://as2.ftcdn.net/jpg/00/70/16/29/500_F_70162903_5mFpUbO3ZfRyD4gslH8j2c5VxjGMKU9G.jpg"
-                       />
                       <img 
                       alt="delete"
                        className="action-icons" 
